@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "eslint index.js --fix commands && nodemon index.js",
+    "start": "eslint --fix commands index.js && nodemon index.js",
     "start:ngrok": "ngrok http 3000",
     "register": "node deploy-commands.js"
   },
