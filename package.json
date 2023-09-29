@@ -1,0 +1,23 @@
+{
+  "name": "discordjs-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "eslint index.js --fix commands && nodemon index.js",
+    "start:ngrok": "ngrok http 3000",
+    "register": "node deploy-commands.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ngrok": "^5.0.0-beta.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "nodemon": "^3.0.1"
+  }
+}
