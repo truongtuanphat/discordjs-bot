@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { SlashCommandBuilder } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
 
@@ -15,10 +16,11 @@ module.exports = {
 	async execute(interaction) {
 		const user = interaction.options.getUser('user');
 		const reply = user !== null ? `Đụ mẹ bà ${user} 😇` : 'Đụ mẹ mọi người nha 😇';
-
+		const isMe = user?.id === process.env.MY_ID;
+		
 		await interaction.reply(reply);
 
-		if (user?.id === '539403215209496576') {
+		if (isMe) {
 			await wait(1000);
 			await interaction.followUp(`Đụ mẹ bà luôn ${interaction.user} 😏`);
 		}
