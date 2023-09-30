@@ -16,8 +16,8 @@ module.exports = {
 		const gifList = [
 			'https://media.tenor.com/FSI2WWHS8oMAAAAi/tkthao219-bubududu.gif',
 			'https://tenor.com/view/tkthao219-bubududu-panda-gif-21655886',
-		]
-		const randomGif = gifList[getRandomInt(gifList.length)]
+		];
+		const randomGif = gifList[getRandomInt(gifList.length)];
 		const target = interaction.options.getUser('target');
 		const reply = `${interaction.user} bóp đít ${target} 🤤`;
 

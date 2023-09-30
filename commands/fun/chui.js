@@ -15,8 +15,9 @@ module.exports = {
 	async execute(interaction) {
 		const target = interaction.options.getUser('target');
 		const reply = target !== null ? `Đụ mẹ bà ${target} 😇` : 'Đụ mẹ mọi người nha 😇';
-		
+
 		await interaction.reply(reply);
+		
 		if (target?.id === '539403215209496576') {
 			await wait(1000);
 			await interaction.followUp(`Đụ mẹ bà luôn ${interaction.user} 😏`);
