@@ -1,13 +1,13 @@
 require('dotenv').config();
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const express = require('express');
 const app = express();
 const token = process.env.DISCORD_TOKEN;
 const port = 3000;
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
 	res.send(`Server started on port ${port}`);
 });
 
@@ -19,6 +19,7 @@ const client = new Client({
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
 	],
 });
 
@@ -56,3 +57,7 @@ for (const file of eventFiles) {
 }
 
 client.login(token);
+
+// client.on('guildMemberRemove', async member => {
+// 	console.log('remove', member);
+// });

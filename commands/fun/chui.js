@@ -17,7 +17,7 @@ module.exports = {
 		const user = interaction.options.getUser('user');
 		const reply = user !== null ? `Đụ mẹ bà ${user} 😇` : 'Đụ mẹ mọi người nha 😇';
 		const isMe = user?.id === process.env.MY_ID;
-		
+
 		await interaction.reply(reply);
 
 		if (isMe) {

@@ -12,14 +12,15 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
-		const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+		const randomColor = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 		const userTagged = interaction.options.getUser('user');
 		const user = userTagged || interaction.user;
+
 		const avatarEmbed = new EmbedBuilder()
 			.setColor(randomColor)
 			.setAuthor({ name: user.tag })
 			.setImage(user.displayAvatarURL({ dynamic: true, size: 4096 }))
-			.setFooter({ text: 'như lồn' });
+			.setFooter({ text: 'avatar như lồn' });
 
 		interaction.reply({ embeds: [avatarEmbed] });
 	},
