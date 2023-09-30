@@ -12,7 +12,7 @@ module.exports = {
       .setColor(randomColor)
       .setTitle(`Hé lô mấy cưng`)
       .setDescription(`Spy tới chơi ${userMention(user.id)}`)
-      .setImage(user.displayAvatarURL({ dynamic: true, size: 512 }))
+      .setImage(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setFooter({ text: 'avatar như lồn' });
 
     member.client.channels.cache.get(process.env.WELCOME_CHANNEL_ID).send({ embeds: [welcomeEmbed] })
