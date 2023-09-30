@@ -6,7 +6,7 @@ module.exports = {
 		.setDescription('Bóp đít')
 		.addUserOption(option =>
 			option
-				.setName('target')
+				.setName('user')
 				.setDescription('Chọn đứa muốn bóp đít')
 				.setRequired(true)),
 	/**
@@ -18,8 +18,8 @@ module.exports = {
 			'https://tenor.com/view/tkthao219-bubududu-panda-gif-21655886',
 		];
 		const randomGif = gifList[getRandomInt(gifList.length)];
-		const target = interaction.options.getUser('target');
-		const reply = `${interaction.user} bóp đít ${target} 🤤`;
+		const user = interaction.options.getUser('user');
+		const reply = `${interaction.user} bóp đít ${user} 🤤`;
 
 		await interaction.reply(reply);
 		await interaction.followUp(randomGif);

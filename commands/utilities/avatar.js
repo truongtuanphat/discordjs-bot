@@ -7,15 +7,18 @@ module.exports = {
 		.setDescription('Coi avatar')
 		.addUserOption(option =>
 			option
-				.setName('target')
+				.setName('user')
 				.setDescription('Chọn đứa muốn coi avatar')
 				.setRequired(false)),
 
 	async execute(interaction) {
-		const userTagged = interaction.options.getUser('target');
-		const target = userTagged || interaction.user;	
+		const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+		const userTagged = interaction.options.getUser('user');
+		const user = userTagged || interaction.user;
 		const avatarEmbed = new EmbedBuilder()
-			.setImage(target.displayAvatarURL({ dynamic: true }))
+			.setColor(randomColor)
+			.setAuthor({ name: user.tag })
+			.setImage(user.displayAvatarURL({ dynamic: true, size: 4096 }))
 			.setFooter({ text: 'như lồn' });
 
 		interaction.reply({ embeds: [avatarEmbed] });

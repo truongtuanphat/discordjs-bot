@@ -15,7 +15,13 @@ app.get('/', function(req, res) {
 app.listen(port);
 console.log(`Server started on port ${port}`);
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+	],
+});
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
