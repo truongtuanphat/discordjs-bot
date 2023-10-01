@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Events, userMention } = require('discord.js');
 
 module.exports = {
@@ -26,8 +25,8 @@ module.exports = {
 
     // test
     if (content === 'a') {
-      console.log(message)
-      message.reply(userMention(message.author.id))
+      console.log(message.author)
+      message.reply(`${userMention(message.author.id)}`)
     }
   },
 };
