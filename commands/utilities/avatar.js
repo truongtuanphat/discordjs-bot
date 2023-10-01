@@ -12,7 +12,7 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
-		const randomColor = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
+		const randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 		const userTagged = interaction.options.getUser('user');
 		const user = userTagged || interaction.user;
 
