@@ -63,7 +63,6 @@ client.login(token);
 
 client.on('messageCreate', async message => {
 	const content = message.content.toLowerCase();
-	console.log(message.author.bot)
 
 	if (content === 'a') {
 
@@ -81,12 +80,11 @@ client.on('messageCreate', async message => {
 		client.on('interactionCreate', async interaction => {
 			if (interaction.customId === 'welcome_button') {
 				const rowtest = new ActionRowBuilder().addComponents(interaction.component);
-				console.log('rowtest', interaction.component);
 				const buttonbuilder = new ButtonBuilder(interaction.component.data);
-				console.log('buttonbuilder', buttonbuilder);
-				buttonbuilder.setDisabled(true);
-				rowtest.setComponents(buttonbuilder);
 
+				buttonbuilder.setDisabled(true);
+				buttonbuilder.setStyle(ButtonStyle.Success)
+				rowtest.setComponents(buttonbuilder);
 
 				interaction.update({ components: [rowtest] }).catch(() => {
 					console.log('[--INFO--] Someone try to spam on welcome button');
