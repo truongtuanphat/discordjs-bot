@@ -1,4 +1,4 @@
-const { Events, EmbedBuilder } = require('discord.js');
+const { Events, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
   name: Events.GuildMemberAdd,
@@ -13,6 +13,15 @@ module.exports = {
       .setImage(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setFooter({ text: 'avatar như lồn' });
 
-    member.client.channels.cache.get(process.env.WELCOME_CHANNEL_ID).send({ embeds: [welcomeEmbed] })
+    const button = new ButtonBuilder()
+      .setCustomId('welcome_button')
+      .setLabel('Thằng lồn nào đây')
+      .setStyle(ButtonStyle.Secondary)
+      .setEmoji('🤔');
+
+    const row = new ActionRowBuilder()
+      .addComponents(button);
+
+    member.client.channels.cache.get(process.env.WELCOME_CHANNEL_ID).send({ embeds: [welcomeEmbed], components: [row] })
   },
 };

@@ -1,9 +1,9 @@
-const { Events, userMention } = require('discord.js');
+const { Events } = require('discord.js');
 
 module.exports = {
   name: Events.MessageCreate,
   async execute(message) {
-    const isBotMessage = message.author.id === process.env.APP_ID;
+    const isBotMessage = message.author.bot;
     if (isBotMessage) return
 
     const content = message.content.toLowerCase();
@@ -21,12 +21,6 @@ module.exports = {
     // hello | hé lô
     if ((content.includes('hello') || content.includes('hé lô') || content.includes('hélô'))) {
       message.reply('lô con cặc');
-    }
-
-    // test
-    if (content === 'a') {
-      console.log(message.author)
-      message.reply(`${userMention(message.author.id)}`)
     }
   },
 };

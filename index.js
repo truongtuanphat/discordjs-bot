@@ -1,7 +1,7 @@
 require('dotenv').config();
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const express = require('express');
 const app = express();
 const token = process.env.DISCORD_TOKEN;
@@ -58,3 +58,41 @@ for (const file of eventFiles) {
 }
 
 client.login(token);
+
+// #########################	test	#########################
+
+client.on('messageCreate', async message => {
+	const content = message.content.toLowerCase();
+	console.log(message.author.bot)
+
+	if (content === 'a') {
+
+		const button = new ButtonBuilder()
+			.setCustomId('welcome_button')
+			.setLabel('Thằng lồn nào đây')
+			.setStyle(ButtonStyle.Secondary)
+			.setEmoji('🤔');
+
+		const row = new ActionRowBuilder()
+			.addComponents(button);
+
+		message.reply({ components: [row] });
+
+		client.on('interactionCreate', async interaction => {
+			if (interaction.customId === 'welcome_button') {
+				const rowtest = new ActionRowBuilder().addComponents(interaction.component);
+				console.log('rowtest', interaction.component);
+				const buttonbuilder = new ButtonBuilder(interaction.component.data);
+				console.log('buttonbuilder', buttonbuilder);
+				buttonbuilder.setDisabled(true);
+				rowtest.setComponents(buttonbuilder);
+
+
+				interaction.update({ components: [rowtest] }).catch(() => {
+					console.log('[--INFO--] Someone try to spam on welcome button');
+				});
+				interaction.message.react('🤔');
+			}
+		});
+	}
+});

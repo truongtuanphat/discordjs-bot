@@ -16,7 +16,7 @@ module.exports = {
 		const user = interaction.options.getUser('user');
 		const reply = user !== null ? `Đụ mẹ bà ${user} 😇` : 'Đụ mẹ mọi người nha 😇';
 		const isMe = user?.id === process.env.MY_ID;
-		const isBot = user?.id === process.env.APP_ID;
+		const isMyBot = user?.id === process.env.APP_ID;
 
 		await interaction.reply(reply);
 
@@ -25,7 +25,7 @@ module.exports = {
 			await interaction.followUp(`Đụ mẹ bà luôn ${interaction.user} 😏`);
 		}
 
-		if (isBot) {
+		if (isMyBot) {
 			await wait(1000);
 			await interaction.followUp('Khùng hả má, hết đứa để chửi hay gì 😡');
 		}
