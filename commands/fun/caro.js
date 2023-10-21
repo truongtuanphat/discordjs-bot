@@ -8,6 +8,6 @@ module.exports = {
 
 	async execute(interaction) {
 		const game = new TicTacToe({ language: 'en', commandOptionName: 'user' });
-    game.handleInteraction(interaction);
+		game.handleInteraction(interaction);
 	},
 };
