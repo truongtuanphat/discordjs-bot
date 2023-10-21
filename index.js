@@ -140,7 +140,7 @@ client.on('messageCreate', async message => {
 					}
 					await interaction.update({ content: `❌⭕ **${startedPlayer.displayName}** 🆚 **${opponent.displayName}**\n\nĐi lẹ cmm lên ${currentPlayerTurn}`, components: [row_1, row_2, row_3] });
 				}
-				else if (interaction.user.id !== startedPlayer.id && interaction.user.id !== opponent.id) {
+				else if (interaction.user.id !== startedPlayer.id && interaction.user.id !== opponent.id && interaction.message.id === game.id) {
 					await interaction.reply({ content: 'Con nít đi chỗ khác chơi', ephemeral: true });
 				}
 			}
