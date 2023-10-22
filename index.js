@@ -63,6 +63,7 @@ client.on('messageCreate', async (message) => {
 	if (message.content.startsWith('a <@')) {
 		const startedPlayer = message.author;
 		const opponent = await client.users.fetch(message.content.split(' ')[1].replace(/[<@>]/g, ''));
+		const defaultContent = `❌ **${startedPlayer.displayName}** 🆚 **${opponent.displayName}** ⭕\n\n`;
 		let currentPlayerTurn = startedPlayer;
 
 		// Create the game board buttons
@@ -81,7 +82,7 @@ client.on('messageCreate', async (message) => {
 		}
 
 		const game = await client.channels.cache.get(message.channelId).send({
-			content: `❌ **${startedPlayer.displayName}**\n\t\t🆚\n⭕ **${opponent.displayName}**\n\nĐi lẹ cmm lên ${currentPlayerTurn}`,
+			content: `${defaultContent}Đi lẹ cmm lên ${currentPlayerTurn}`,
 			components: rowComponents,
 		});
 
@@ -90,7 +91,6 @@ client.on('messageCreate', async (message) => {
 		client.on('interactionCreate', async (interaction) => {
 			if (interaction.customId.startsWith('caro_') && interaction.message.id === game.id) {
 				const responseButton = interaction.customId;
-				const defaultContent = `❌ **${startedPlayer.displayName}**\n\t\t🆚\n⭕ **${opponent.displayName}**\n\n`;
 
 				if (
 					interaction.user.id === currentPlayerTurn.id &&
