@@ -4,11 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('bopdit')
 		.setDescription('Bóp đít')
-		.addUserOption(option =>
-			option
-				.setName('user')
-				.setDescription('Chọn đứa muốn bóp đít')
-				.setRequired(true)),
+		.addUserOption((option) => option.setName('user').setDescription('Chọn đứa muốn bóp đít').setRequired(true)),
 
 	async execute(interaction) {
 		const gifList = [

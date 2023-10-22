@@ -1,18 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-
 	data: new SlashCommandBuilder()
 		.setName('avatar')
 		.setDescription('Coi avatar')
-		.addUserOption(option =>
-			option
-				.setName('user')
-				.setDescription('Chọn đứa muốn coi avatar')
-				.setRequired(false)),
+		.addUserOption((option) => option.setName('user').setDescription('Chọn đứa muốn coi avatar').setRequired(false)),
 
 	async execute(interaction) {
-		const randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
+		const randomColor = '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
 		const userTagged = interaction.options.getUser('user');
 		const user = userTagged || interaction.user;
 

@@ -15,7 +15,7 @@ module.exports = {
 		// đụ
 		if (content.includes('đụ')) {
 			const words = content.split(' ');
-			words.forEach(word => {
+			words.forEach((word) => {
 				if (word === 'đụ') {
 					message.reply('chửi thề con cặc');
 				}
@@ -23,7 +23,7 @@ module.exports = {
 		}
 
 		// hello | hé lô
-		if ((content.includes('hello') || content.includes('hé lô') || content.includes('hélô'))) {
+		if (content.includes('hello') || content.includes('hé lô') || content.includes('hélô')) {
 			message.reply('lô con cặc');
 		}
 	},

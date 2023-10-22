@@ -2,15 +2,10 @@ const { SlashCommandBuilder } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
-
 	data: new SlashCommandBuilder()
 		.setName('chui')
 		.setDescription('Chửi mấy đứa vô học')
-		.addUserOption(option =>
-			option
-				.setName('user')
-				.setDescription('Chọn đứa muốn chửi')
-				.setRequired(false)),
+		.addUserOption((option) => option.setName('user').setDescription('Chọn đứa muốn chửi').setRequired(false)),
 
 	async execute(interaction) {
 		const user = interaction.options.getUser('user');
