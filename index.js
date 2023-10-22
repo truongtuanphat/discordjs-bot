@@ -65,61 +65,105 @@ client.on('messageCreate', async (message) => {
 		const opponent = await client.users.fetch(message.content.split(' ')[1].replace(/[<@>]/g, ''));
 		let currentPlayerTurn = startedPlayer;
 
-		const caro_1 = new ButtonBuilder().setCustomId('caro_1').setStyle(ButtonStyle.Secondary).setLabel('-');
-		const caro_2 = new ButtonBuilder().setCustomId('caro_2').setStyle(ButtonStyle.Secondary).setLabel('-');
-		const caro_3 = new ButtonBuilder().setCustomId('caro_3').setStyle(ButtonStyle.Secondary).setLabel('-');
+		// Create the game board buttons
+		const caroButtons = {};
+		const rowComponents = [];
 
-		const caro_4 = new ButtonBuilder().setCustomId('caro_4').setStyle(ButtonStyle.Secondary).setLabel('-');
-		const caro_5 = new ButtonBuilder().setCustomId('caro_5').setStyle(ButtonStyle.Secondary).setLabel('-');
-		const caro_6 = new ButtonBuilder().setCustomId('caro_6').setStyle(ButtonStyle.Secondary).setLabel('-');
+		for (let i = 1; i <= 9; i++) {
+			const customId = `caro_${i}`;
+			const caroButton = new ButtonBuilder().setCustomId(customId).setStyle(ButtonStyle.Secondary).setLabel('-');
+			caroButtons[customId] = caroButton;
 
-		const caro_7 = new ButtonBuilder().setCustomId('caro_7').setStyle(ButtonStyle.Secondary).setLabel('-');
-		const caro_8 = new ButtonBuilder().setCustomId('caro_8').setStyle(ButtonStyle.Secondary).setLabel('-');
-		const caro_9 = new ButtonBuilder().setCustomId('caro_9').setStyle(ButtonStyle.Secondary).setLabel('-');
-
-		const row_1 = new ActionRowBuilder().addComponents(caro_1, caro_2, caro_3);
-		const row_2 = new ActionRowBuilder().addComponents(caro_4, caro_5, caro_6);
-		const row_3 = new ActionRowBuilder().addComponents(caro_7, caro_8, caro_9);
+			if (i % 3 === 1) {
+				rowComponents.push(new ActionRowBuilder());
+			}
+			rowComponents[rowComponents.length - 1].addComponents(caroButton);
+		}
 
 		const game = await client.channels.cache.get(message.channelId).send({
-			content: `❌⭕ **${startedPlayer.displayName}** 🆚 **${opponent.displayName}**\n\nĐi lẹ cmm lên ${startedPlayer}`,
-			components: [row_1, row_2, row_3],
+			content: `❌ **${startedPlayer.displayName}**\n\t\t🆚\n⭕ **${opponent.displayName}**\n\nĐi lẹ cmm lên ${currentPlayerTurn}`,
+			components: rowComponents,
 		});
 
-		const caroButtons = {
-			caro_1: caro_1,
-			caro_2: caro_2,
-			caro_3: caro_3,
-			caro_4: caro_4,
-			caro_5: caro_5,
-			caro_6: caro_6,
-			caro_7: caro_7,
-			caro_8: caro_8,
-			caro_9: caro_9,
-		};
+		const invalidButtons = [];
 
 		client.on('interactionCreate', async (interaction) => {
-			if (interaction.customId.startsWith('caro_')) {
-				if (interaction.user.id === currentPlayerTurn.id && interaction.message.id === game.id) {
-					const responseButton = interaction.customId;
+			if (interaction.customId.startsWith('caro_') && interaction.message.id === game.id) {
+				const responseButton = interaction.customId;
+				const defaultContent = `❌ **${startedPlayer.displayName}**\n\t\t🆚\n⭕ **${opponent.displayName}**\n\n`;
+
+				if (
+					interaction.user.id === currentPlayerTurn.id &&
+					!invalidButtons.includes(responseButton) &&
+					!invalidButtons.includes('END')
+				) {
 					currentPlayerTurn = currentPlayerTurn === startedPlayer ? opponent : startedPlayer;
 					if (interaction.user.id === startedPlayer.id) {
 						await caroButtons[responseButton].setStyle(ButtonStyle.Primary).setLabel('❌');
 					} else {
 						await caroButtons[responseButton].setStyle(ButtonStyle.Danger).setLabel('⭕');
 					}
-					await interaction.update({
-						content: `❌⭕ **${startedPlayer.displayName}** 🆚 **${opponent.displayName}**\n\nĐi lẹ cmm lên ${currentPlayerTurn}`,
-						components: [row_1, row_2, row_3],
-					});
-				} else if (
-					interaction.user.id !== startedPlayer.id &&
-					interaction.user.id !== opponent.id &&
-					interaction.message.id === game.id
-				) {
+					invalidButtons.push(responseButton);
+
+					let board = [
+						[caroButtons.caro_1.data.label, caroButtons.caro_2.data.label, caroButtons.caro_3.data.label],
+						[caroButtons.caro_4.data.label, caroButtons.caro_5.data.label, caroButtons.caro_6.data.label],
+						[caroButtons.caro_7.data.label, caroButtons.caro_8.data.label, caroButtons.caro_9.data.label],
+					];
+
+					if (checkForWinner(board)) {
+						await interaction.update({
+							content: `${defaultContent}${interaction.user} thắng 🎉`,
+							components: rowComponents,
+						});
+						invalidButtons.push('END');
+					} else if (draw(board)) {
+						await interaction.update({
+							content: `${defaultContent}Hòa`,
+							components: rowComponents,
+						});
+					} else {
+						await interaction.update({
+							content: `${defaultContent}Đi lẹ cmm lên ${currentPlayerTurn}`,
+							components: rowComponents,
+						});
+					}
+				} else if (interaction.user.id !== startedPlayer.id && interaction.user.id !== opponent.id) {
 					await interaction.reply({ content: 'Con nít đi chỗ khác chơi', ephemeral: true });
 				}
 			}
 		});
 	}
 });
+
+function checkForWinner(board) {
+	// Check rows, columns, and diagonals for a winning condition
+	for (let i = 0; i < 3; i++) {
+		if (
+			(board[i][0] === board[i][1] && board[i][1] === board[i][2] && board[i][0] !== '-') || // Check rows
+			(board[0][i] === board[1][i] && board[1][i] === board[2][i] && board[0][i] !== '-') // Check columns
+		) {
+			return true;
+		}
+	}
+	if (
+		(board[0][0] === board[1][1] && board[1][1] === board[2][2] && board[0][0] !== '-') || // Check diagonal (top-left to bottom-right)
+		(board[0][2] === board[1][1] && board[1][1] === board[2][0] && board[0][2] !== '-') // Check diagonal (top-right to bottom-left)
+	) {
+		return true;
+	}
+
+	return false;
+}
+
+function draw(board) {
+	let flag = true;
+	for (let i = 0; i < 3; i++) {
+		for (let j = 0; j < 3; j++) {
+			if (board[i][j] === '-') {
+				flag = false;
+			}
+		}
+	}
+	return flag;
+}

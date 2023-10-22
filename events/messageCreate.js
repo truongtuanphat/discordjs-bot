@@ -4,7 +4,6 @@ module.exports = {
 	name: Events.MessageCreate,
 	async execute(message) {
 		// log
-		console.log(message);
 		console.log(`${message.author.displayName}: ${message.content}`);
 
 		const isBotMessage = message.author.bot;
