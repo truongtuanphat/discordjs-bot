@@ -30,7 +30,6 @@ module.exports = {
 		if (message.content.startsWith('.caro <@')) {
 			const startedPlayer = message.author;
 			const opponent = await message.client.users.fetch(message.content.match(/<@(\d+)>/)[1]);
-			console.log(opponent);
 			const defaultContent = `❌ **${startedPlayer.displayName}** 🆚 **${opponent.displayName}** ⭕\n\n`;
 			let currentPlayerTurn = startedPlayer;
 
