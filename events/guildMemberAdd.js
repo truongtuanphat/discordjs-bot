@@ -24,5 +24,11 @@ module.exports = {
 		member.client.channels.cache
 			.get(process.env.WELCOME_CHANNEL_ID)
 			.send({ embeds: [welcomeEmbed], components: [row] });
+
+		member.client.on('interactionCreate', async (interaction) => {
+			if (interaction.customId !== 'welcome_button') return;
+			button.setStyle(ButtonStyle.Primary).setDisabled(true);
+			interaction.message.react('🤔');
+		});
 	},
 };
