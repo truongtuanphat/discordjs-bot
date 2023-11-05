@@ -95,7 +95,7 @@ module.exports = {
 							});
 						}
 					} else if (interaction.user.id !== startedPlayer.id && interaction.user.id !== opponent.id) {
-						await interaction.reply({ content: 'Con nít đi chỗ khác chơi', ephemeral: true });
+						interaction.reply({ content: 'Con nít đi chỗ khác chơi', ephemeral: true });
 					}
 				}
 			});
